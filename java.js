@@ -1,85 +1,119 @@
-```javascript
 // ========================================
-// BOTÃO "ENTRAR"
-// ========================================
-
-const enterButton = document.getElementById("enterButton");
-
-enterButton.addEventListener("click", () => {
-
-    document.getElementById("content").scrollIntoView({
-        behavior: "smooth"
-    });
-
-});
-
-
-// ========================================
-// CONTADOR DO RELACIONAMENTO
+// ❤️ CONTADOR DO NOSSO RELACIONAMENTO
 // ========================================
 
-// MUDE A DATA ABAIXO PARA A DATA EM QUE
-// VOCÊS COMEÇARAM A NAMORAR.
-//
-// Formato:
-// ANO, MÊS - 1, DIA, HORA, MINUTO, SEGUNDO
-
-const startDate = new Date(
-    2025,
-    0,
-    1,
-    0,
-    0,
-    0
-);
+const startDate = new Date(2025, 8, 13, 7, 30, 0);
 
 
 function updateCounter() {
 
     const now = new Date();
 
-    const difference = now - startDate;
+    let years = now.getFullYear() - startDate.getFullYear();
+
+    let months = now.getMonth() - startDate.getMonth();
+
+    let days = now.getDate() - startDate.getDate();
+
+    let hours = now.getHours() - startDate.getHours();
+
+    let minutes = now.getMinutes() - startDate.getMinutes();
+
+    let seconds = now.getSeconds() - startDate.getSeconds();
 
 
-    const seconds = Math.floor(
-        difference / 1000
-    );
+    // ========================================
+    // SEGUNDOS
+    // ========================================
+
+    if (seconds < 0) {
+        seconds += 60;
+        minutes--;
+    }
 
 
-    const minutes = Math.floor(
-        seconds / 60
-    );
+    // ========================================
+    // MINUTOS
+    // ========================================
+
+    if (minutes < 0) {
+        minutes += 60;
+        hours--;
+    }
 
 
-    const hours = Math.floor(
-        minutes / 60
-    );
+    // ========================================
+    // HORAS
+    // ========================================
+
+    if (hours < 0) {
+        hours += 24;
+        days--;
+    }
 
 
-    const days = Math.floor(
-        hours / 24
-    );
+    // ========================================
+    // DIAS
+    // ========================================
 
+    if (days < 0) {
+
+        months--;
+
+        const lastDayOfPreviousMonth = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            0
+        ).getDate();
+
+        days += lastDayOfPreviousMonth;
+    }
+
+
+    // ========================================
+    // MESES
+    // ========================================
+
+    if (months < 0) {
+        months += 12;
+        years--;
+    }
+
+
+    // ========================================
+    // MOSTRAR NA PÁGINA
+    // ========================================
+
+    document.getElementById("years").textContent =
+        years;
+
+    document.getElementById("months").textContent =
+        months;
 
     document.getElementById("days").textContent =
-        days.toLocaleString("pt-BR");
-
+        days;
 
     document.getElementById("hours").textContent =
-        hours % 24;
-
+        String(hours).padStart(2, "0");
 
     document.getElementById("minutes").textContent =
-        minutes % 60;
-
+        String(minutes).padStart(2, "0");
 
     document.getElementById("seconds").textContent =
-        seconds % 60;
-
+        String(seconds).padStart(2, "0");
 }
 
 
+// Inicia
 updateCounter();
 
+
+// Atualiza a cada segundo
 setInterval(updateCounter, 1000);
-```
+
+const music = document.getElementById("music");
+const enterButton = document.getElementById("enterButton");
+
+enterButton.addEventListener("click", () => {
+    music.play();
+});
